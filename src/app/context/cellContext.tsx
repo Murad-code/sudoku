@@ -6,46 +6,46 @@ import { CellContextProps } from "../types/types";
 export const CellContext = createContext<CellContextProps | null>(null);
 
 const CellContextProvider = ({ children }: { children: ReactNode }) => {
-  const [cellIndex, setCellIndex] = useState<
+  const [focusedCellIndex, setFocusedCellIndex] = useState<
     { row: number; col: number } | undefined
   >();
   const [selectedNumber, setSelectedNumber] = useState<number | undefined>();
-  const [board, setBoard] = useState<{
-    grid: number[][];
-    solution: number[][];
-  } | null>(null);
-
-  const grid = board?.grid;
-  const solution = board?.solution;
+  const [grid, setGrid] = useState<number[][] | null>(null);
+  const [solution, setSolution] = useState<number[][] | null>(null);
 
   useEffect(() => {
-    setBoard(generateSudoku());
+    const { grid, solution } = generateSudoku();
+    setGrid(grid);
+    setSolution(solution);
   }, []);
 
   useEffect(() => {
-    checkAgainstSolution(selectedNumber);
+    if (selectedNumber !== 0) checkAgainstSolution(selectedNumber);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNumber]);
 
+  const errorMessage = () => {};
+
   const checkAgainstSolution = (selectedNumber: number | undefined) => {
-    if (selectedNumber && cellIndex && grid && solution) {
-      grid[cellIndex.row][cellIndex.col] = selectedNumber;
+    if (selectedNumber && focusedCellIndex && grid && solution) {
+      const newGrid = JSON.parse(JSON.stringify(grid));
+      newGrid[focusedCellIndex.row][focusedCellIndex.col] = selectedNumber;
       if (
-        (grid[cellIndex.row][cellIndex.col] =
-          solution[cellIndex.row][cellIndex.col])
+        newGrid[focusedCellIndex.row][focusedCellIndex.col] ===
+        solution[focusedCellIndex.row][focusedCellIndex.col]
       ) {
-        console.log(6111, grid[cellIndex.row][cellIndex.col]);
-        console.log(6222, solution[cellIndex.row][cellIndex.col]);
-        setBoard({ grid: grid, solution: solution });
+        setSelectedNumber(0);
+        setGrid(newGrid);
+      } else {
+        errorMessage();
+        setSelectedNumber(0);
       }
     }
   };
-  // Function to check if selectedNumber in the grid[cellIndex] equals to the number in solution[cellIndex]
-  // If yes, update the board.grid
-  // If no, call function to trigger incorrect answer message
 
   const contextValue: CellContextProps = {
-    cellIndex,
-    setCellIndex,
+    focusedCellIndex,
+    setFocusedCellIndex,
     selectedNumber,
     setSelectedNumber,
     grid,

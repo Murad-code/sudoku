@@ -68,7 +68,6 @@ function generateSudoku(): { grid: number[][]; solution: number[][] } {
       if (cloneGrid[row][col] !== 0) {
         cloneGrid[row][col] = 0;
 
-        const clonedGrid = JSON.parse(JSON.stringify(cloneGrid));
         if (!hasUniqueSolution()) {
           cloneGrid[row][col] = grid[row][col];
         } else {
@@ -85,9 +84,8 @@ function generateSudoku(): { grid: number[][]; solution: number[][] } {
   }
 
   solveSudoku();
-  const solution = JSON.parse(JSON.stringify(grid));
+  const solution = JSON.parse(JSON.stringify(grid)); // This makes a deep copy of the original grid because arrays/objects are pass-by-reference in js
   const reducedGrid = removeValues(grid);
-  console.log(51111, reducedGrid, solution);
   return { grid: reducedGrid, solution };
 }
 
