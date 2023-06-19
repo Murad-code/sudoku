@@ -12,6 +12,10 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
   const [selectedNumber, setSelectedNumber] = useState<number | undefined>();
   const [grid, setGrid] = useState<number[][] | null>(null);
   const [solution, setSolution] = useState<number[][] | null>(null);
+  const [errorCellIndex, setErrorCellIndex] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
 
   useEffect(() => {
     const { grid, solution } = generateSudoku();
@@ -24,7 +28,12 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNumber]);
 
-  const errorMessage = () => {};
+  const errorMessage = () => {
+    if (focusedCellIndex) setErrorCellIndex(focusedCellIndex);
+    setTimeout(() => {
+      setErrorCellIndex(null);
+    }, 1000);
+  };
 
   const checkAgainstSolution = (selectedNumber: number | undefined) => {
     if (selectedNumber && focusedCellIndex && grid && solution) {
@@ -49,7 +58,10 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
     selectedNumber,
     setSelectedNumber,
     grid,
+    setGrid,
     solution,
+    errorCellIndex,
+    setErrorCellIndex,
   };
   return (
     <CellContext.Provider value={contextValue}>{children}</CellContext.Provider>
