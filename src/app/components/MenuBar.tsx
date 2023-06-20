@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import moment from "moment";
 import { CellContext } from "../context/cellContext";
 import { CellContextProps } from "../types/types";
+import Link from "next/link";
 
 const MenuBar = () => {
   const [startTime, setStartTime] = useState(moment());
@@ -21,15 +22,15 @@ const MenuBar = () => {
     .format("mm ss");
 
   const handleRestart = () => {
-    if (generateNewSudoku) generateNewSudoku();
+    generateNewSudoku?.();
     setStartTime(moment());
     setElapsedTime(moment.duration());
   };
   return (
     <nav className="flex space-x-8 mt-4 justify-between">
-      <button className="bg-[#f5f5f5] px-4 py-2  w-20 rounded shadow-sm">
+      <Link href="/" className="bg-[#f5f5f5] px-4 py-2  w-20 rounded shadow-sm">
         Menu
-      </button>
+      </Link>
       <button
         onClick={handleRestart}
         className="bg-[#f5f5f5] px-4 py-2  w-20 rounded shadow-sm"
