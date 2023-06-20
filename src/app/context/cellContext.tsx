@@ -18,9 +18,7 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
   } | null>(null);
 
   useEffect(() => {
-    const { grid, solution } = generateSudoku();
-    setGrid(grid);
-    setSolution(solution);
+    generateNewSudoku();
   }, []);
 
   useEffect(() => {
@@ -33,6 +31,12 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => {
       setErrorCellIndex(null);
     }, 1000);
+  };
+
+  const generateNewSudoku = () => {
+    const { grid, solution } = generateSudoku();
+    setGrid(grid);
+    setSolution(solution);
   };
 
   const checkAgainstSolution = (selectedNumber: number | undefined) => {
@@ -62,6 +66,7 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
     solution,
     errorCellIndex,
     setErrorCellIndex,
+    generateNewSudoku,
   };
   return (
     <CellContext.Provider value={contextValue}>{children}</CellContext.Provider>

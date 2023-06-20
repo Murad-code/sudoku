@@ -14,6 +14,7 @@ export interface CellContextProps {
   setErrorCellIndex: Dispatch<
     SetStateAction<{ row: number; col: number } | null>
   >;
+  generateNewSudoku?: () => void;
 }
 
 export interface SudokuCellProps {
