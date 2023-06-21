@@ -1,8 +1,8 @@
 import React from "react";
-import Grid from "../components/Grid";
-import InputButtons from "../components/InputButtons";
-import MenuBar from "../components/MenuBar";
-import CellContextProvider from "../context/cellContext";
+import Grid from "../../components/Grid";
+import InputButtons from "../../components/InputButtons";
+import MenuBar from "../../components/MenuBar";
+import CellContextProvider from "../../context/cellContext";
 
 const Puzzle = () => {
   return (
