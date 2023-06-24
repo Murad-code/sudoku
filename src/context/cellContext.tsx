@@ -2,6 +2,7 @@
 import React, { createContext, useEffect, useState, ReactNode } from "react";
 import generateSudoku from "../utils/generateSudoku";
 import { CellContextProps } from "../types/types";
+import moment from "moment";
 
 export const CellContext = createContext<CellContextProps | null>(null);
 
@@ -16,15 +17,24 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
     row: number;
     col: number;
   } | null>(null);
+  const [startTime, setStartTime] = useState(moment());
+  const [elapsedTime, setElapsedTime] = useState(moment.duration());
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     generateNewSudoku();
   }, []);
 
+  const testCompleteGrid = () => {
+    const newGrid = JSON.parse(JSON.stringify(solution));
+    setGrid(newGrid);
+  };
+
   useEffect(() => {
     if (selectedNumber !== 0) checkAgainstSolution(selectedNumber);
+    checkIfComplete();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedNumber]);
+  }, [selectedNumber, grid]);
 
   const errorMessage = () => {
     if (focusedCellIndex) setErrorCellIndex(focusedCellIndex);
@@ -56,6 +66,31 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  function checkIfComplete() {
+    if (grid && solution) {
+      let hasMismatch = false; // Flag to track if any mismatched values are found
+
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (grid[i][j] !== solution[i][j]) {
+            hasMismatch = true;
+            break; // Exit the inner loop if a mismatch is found
+          }
+        }
+        if (hasMismatch) {
+          break; // Exit the outer loop if a mismatch is found
+        }
+      }
+      setIsComplete(!hasMismatch); // Set the state based on the hasMismatch flag
+    }
+  }
+  const handleRestart = () => {
+    generateNewSudoku();
+    setIsComplete(false);
+    setStartTime(moment());
+    setElapsedTime(moment.duration());
+  };
+
   const contextValue: CellContextProps = {
     focusedCellIndex,
     setFocusedCellIndex,
@@ -66,7 +101,13 @@ const CellContextProvider = ({ children }: { children: ReactNode }) => {
     solution,
     errorCellIndex,
     setErrorCellIndex,
-    generateNewSudoku,
+    startTime,
+    setStartTime,
+    elapsedTime,
+    setElapsedTime,
+    isComplete,
+    handleRestart,
+    testCompleteGrid,
   };
   return (
     <CellContext.Provider value={contextValue}>{children}</CellContext.Provider>

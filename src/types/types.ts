@@ -15,6 +15,14 @@ export interface CellContextProps {
     SetStateAction<{ row: number; col: number } | null>
   >;
   generateNewSudoku?: () => void;
+  handleRestart?: () => void;
+  startTime: moment.Moment;
+  setStartTime: React.Dispatch<React.SetStateAction<moment.Moment>>;
+  elapsedTime: moment.Duration;
+  setElapsedTime: React.Dispatch<React.SetStateAction<moment.Duration>>;
+  isComplete: boolean;
+  // testing purposes
+  testCompleteGrid?: () => void;
 }
 
 export interface SudokuCellProps {

@@ -1,8 +1,10 @@
+"use client";
 import React from "react";
 import Grid from "../../components/Grid";
 import InputButtons from "../../components/InputButtons";
 import MenuBar from "../../components/MenuBar";
 import CellContextProvider from "../../context/cellContext";
+import CompleteDialog from "@/components/CompleteDialog";
 
 const Puzzle = () => {
   return (
@@ -11,6 +13,7 @@ const Puzzle = () => {
         <Grid />
         <InputButtons />
         <MenuBar />
+        <CompleteDialog />
       </div>
     </CellContextProvider>
   );
