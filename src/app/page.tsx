@@ -19,7 +19,7 @@ export default function Home() {
         </Link>
         <Link
           className="p-6 bg-red-600 hover:bg-red-700 rounded text-white w-64 drop-shadow-sm"
-          href="/puzzle"
+          href="/host"
         >
           Host Game
         </Link>
