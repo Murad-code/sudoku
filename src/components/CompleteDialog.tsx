@@ -60,7 +60,7 @@ const CompleteDialog = () => {
                 <div className="mt-2">
                   <p className="text-sm text-gray-500 border-t pt-2">
                     Well done, you finished in{" "}
-                    {moment.utc(elapsedTime.asMilliseconds()).format("mm ss")}
+                    {moment.utc(elapsedTime.asMilliseconds()).format("mm:ss")}
                   </p>
                 </div>
 
