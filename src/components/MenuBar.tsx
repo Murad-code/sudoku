@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useContext } from "react";
 import moment from "moment";
-import { CellContext } from "../context/cellContext";
+import { CellContext } from "../hooks/useCellContext";
 import { CellContextProps } from "../types/types";
 import Link from "next/link";
 

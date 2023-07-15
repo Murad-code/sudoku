@@ -2,8 +2,8 @@
 
 import React, { useContext } from "react";
 import SudokuCell from "./SudokuCell";
-import { CellContext } from "../context/cellContext";
-import { CellContextProps } from "../types/types";
+import { CellContext } from "@/hooks/useCellContext";
+import { CellContextProps } from "@/types/types";
 
 function Grid() {
   const { grid } = useContext(CellContext) as CellContextProps;
@@ -20,7 +20,6 @@ function Grid() {
           />
         ))
       )}
-      
     </div>
   );
 }

@@ -2,8 +2,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 
-import { CellContext } from "../context/cellContext";
-import { CellContextProps, SudokuCellProps } from "../types/types";
+import { CellContext } from "../../hooks/useCellContext";
+import { CellContextProps, SudokuCellProps } from "../../types/types";
 
 function SudokuCell({ value, rowIndex, columnIndex }: SudokuCellProps) {
   const [cellValue, setCellValue] = useState(value);

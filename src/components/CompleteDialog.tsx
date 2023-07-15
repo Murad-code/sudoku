@@ -1,6 +1,6 @@
 import React, { useContext, useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CellContext } from "@/context/cellContext";
+import { CellContext } from "@/hooks/useCellContext";
 import { CellContextProps } from "@/types/types";
 import moment from "moment";
 
