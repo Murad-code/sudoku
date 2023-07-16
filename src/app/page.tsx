@@ -13,7 +13,7 @@ export default function Home() {
         </Link>
         <Link
           className="p-6 bg-blue-600 hover:bg-blue-700 rounded text-white w-64 drop-shadow-sm"
-          href="/puzzle"
+          href="/join"
         >
           Find Game
         </Link>
