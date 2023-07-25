@@ -2,17 +2,16 @@
 import Lobby from "@/components/Lobby";
 import { ServerToClientEvents, ClientToServerEvents } from "@/types/socketio";
 import React, { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
 import { useForm, SubmitHandler } from "react-hook-form";
-let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
+import { initSocket, joinRoom } from "@/services/socketService";
+import { usePlayerStore, useRoomStore } from "@/hooks/useMultiplayerState";
 interface IForm {
   username: string;
   roomId: string;
 }
 export default function JoinPage() {
-  const [username, setUsername] = useState<string | null>(null);
-  const [roomId, setRoomId] = useState<string | null>(null);
-  const [hasUserJoinedRoom, setHasUserJoinedRoom] = useState(false);
+  const { socket } = usePlayerStore();
+  const { roomId, setRoomId } = useRoomStore();
   const {
     register,
     handleSubmit,
@@ -21,23 +20,21 @@ export default function JoinPage() {
   } = useForm<IForm>();
 
   const onSubmit = ({ username, roomId }: IForm) => {
-    socket = io(String(process.env.NEXT_PUBLIC_SERVER_URL), {
-      query: {
-        username: username,
-        socketId: roomId,
-      },
-    });
-    socket?.on("connect", () => {
-      console.log(`Joined with id: ${socket.id}`);
-      setHasUserJoinedRoom(true);
-    });
+    if (socket) joinRoom(socket, username, roomId);
   };
 
   useEffect(() => {
     if (socket) {
       socket.on("roomJoined", (data) => {
+        setRoomId(data);
         console.log("Room Joined its working! ", data);
       });
+      return () => {
+        socket.on("disconnect", () => {
+          // Implement logic to emit event to remove user from all rooms
+          console.log("socket disconnected client: " + socket.id);
+        });
+      };
     }
   }, [socket]);
 
@@ -86,11 +83,7 @@ export default function JoinPage() {
 
   return (
     <div className="w-full max-w-xs mx-auto flex flex-col mt-20">
-      {hasUserJoinedRoom && roomId ? (
-        <Lobby roomId={roomId} />
-      ) : (
-        <JoinRoomForm />
-      )}
+      {roomId ? <Lobby socket={socket} roomId={roomId} /> : <JoinRoomForm />}
     </div>
   );
 }

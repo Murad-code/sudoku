@@ -29,3 +29,9 @@ export type NextApiResponseServerIO = NextApiResponse & {
     };
   };
 };
+
+export interface Player {
+  id: string;
+  name: string;
+  score: number;
+}

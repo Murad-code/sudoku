@@ -1,16 +1,14 @@
 import { Server, Socket } from "socket.io";
 import { Player } from "./models/Player.js";
 
-
 const playerData: { [id: string]: Player } = {}; // Centralized player data storage
-
 
 // Defines the socket event handlers
 export const setupSocketEvents = (io: Server) => {
   io.on("connection", (socket) => {
     console.log("a user connected as: " + socket.id);
     socket.on("disconnect", () => {
-      console.log("user disconnected");
+      console.log("user disconnected: " + socket.id);
       // Clean up player data when socket disconnects
       if (playerData[socket.id]) {
         delete playerData[socket.id];
@@ -30,7 +28,7 @@ export const setupSocketEvents = (io: Server) => {
     });
 
     // Join route handler
-    socket.on("join", (room, name) => {
+    socket.on("joinRoom", (name, room) => {
       const player = new Player(socket.id, name);
       playerData[socket.id] = player; // Store player data
 
@@ -48,6 +46,7 @@ export const setupSocketEvents = (io: Server) => {
   function updateLobby(room: string) {
     const socketsInRoom = Array.from(io.sockets.adapter.rooms.get(room) || []);
     const playersInRoom = socketsInRoom.map((socketId) => playerData[socketId]);
+    console.log("Players in lobby: " + JSON.stringify(playersInRoom));
     io.to(room).emit("lobbyUpdated", playersInRoom);
   }
 };

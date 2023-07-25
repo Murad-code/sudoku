@@ -1,25 +1,21 @@
 "use client";
 import Lobby from "@/components/Lobby";
-import { ServerToClientEvents, ClientToServerEvents } from "@/types/socketio";
 import React, { useEffect, useState } from "react";
-import { Socket } from "socket.io-client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   createRoom,
   listenRoomCreated,
   initSocket,
 } from "@/services/socketService";
+import { usePlayerStore, useRoomStore } from "@/hooks/useMultiplayerState";
 
 interface IForm {
   username: string;
 }
 
 const HostPage = () => {
-  const [socket, setSocket] = useState<Socket<
-    ServerToClientEvents,
-    ClientToServerEvents
-  > | null>(null);
-  const [roomId, setRoomId] = useState<string | null>(null);
+  const { socket } = usePlayerStore();
+  const { roomId, setRoomId } = useRoomStore();
   const {
     register,
     handleSubmit,
@@ -28,17 +24,8 @@ const HostPage = () => {
   } = useForm<IForm>();
 
   useEffect(() => {
-    const socket = initSocket(handleSocketCreated);
-  }, []);
-
-  useEffect(() => {
     if (socket) listenRoomCreated(socket, handleRoomCreated);
   }, [socket]);
-
-  const handleSocketCreated = (socket: Socket) => {
-    console.log(`Host Connected with id: ${socket.id}`);
-    setSocket(socket);
-  };
 
   const handleRoomCreated = (roomId: string) => {
     setRoomId(roomId);
@@ -56,7 +43,7 @@ const HostPage = () => {
       <div className="flex min-h-screen flex-col items-center p-10">
         {roomId ? (
           <div>
-            <Lobby roomId={roomId} />
+            <Lobby socket={socket} roomId={roomId} />
           </div>
         ) : (
           <form
