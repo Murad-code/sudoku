@@ -1,15 +1,30 @@
-import { SudokuBoard } from './SudokuBoard';
-import { Player } from './Player';
+import { SudokuBoard } from "./SudokuBoard.js";
+import { Player } from "./Player.js";
+import generateSudoku from "../utils/generateSudoku.js";
 
 export class SudokuGame {
   private players: Player[];
+  private roomId: string;
   private board: SudokuBoard;
+  private solutionBoard: SudokuBoard;
 
-  constructor(board: SudokuBoard) {
+  constructor(roomId: string) {
     this.players = [];
-    this.board = board;
+    this.roomId = roomId;
+    const { grid, solution } = generateSudoku();
+    this.board = grid;
+    this.solutionBoard = solution;
   }
 
-  // Rest of the SudokuGame class implementation
-  // ...
+  getRoomId = () => {
+    return this.getRoomId;
+  };
+
+  getBoard = () => {
+    return this.board;
+  };
+
+  getSolutionBoard = () => {
+    return this.solutionBoard;
+  };
 }

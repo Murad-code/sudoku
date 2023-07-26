@@ -6,8 +6,10 @@ import {
   createRoom,
   listenRoomCreated,
   initSocket,
+  startGame,
 } from "@/services/socketService";
 import { usePlayerStore, useRoomStore } from "@/hooks/useMultiplayerState";
+import { useRouter } from "next/navigation";
 
 interface IForm {
   username: string;
@@ -22,6 +24,15 @@ const HostPage = () => {
     watch,
     formState: { errors },
   } = useForm<IForm>();
+  const router = useRouter();
+
+  const handleStartGame = (roomId: string) => {
+    // Your custom logic for handling the start game action
+    startGame(socket, roomId);
+
+    // After the custom logic, redirect to the desired page
+    router.push("/puzzle/multiplayer");
+  };
 
   useEffect(() => {
     if (socket) listenRoomCreated(socket, handleRoomCreated);
@@ -44,6 +55,12 @@ const HostPage = () => {
         {roomId ? (
           <div>
             <Lobby socket={socket} roomId={roomId} />
+            <button
+              onClick={() => handleStartGame(roomId)}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mt-8 rounded shadow"
+            >
+              Start Game
+            </button>
           </div>
         ) : (
           <form

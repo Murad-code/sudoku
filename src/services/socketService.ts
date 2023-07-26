@@ -40,8 +40,20 @@ export const listenLobbyUpdated = (
   socket: Socket,
   setPlayers: (players: Player[]) => void
 ) => {
-
   socket.on("lobbyUpdated", (players) => {
     setPlayers(players);
+  });
+};
+
+export const startGame = (socket: Socket, roomId: string) => {
+  socket.emit("startGame", roomId);
+};
+
+export const listenGameStarted = (
+  socket: Socket,
+  setBoard: (board: number[][]) => void
+) => {
+  socket.on("gameStarted", (board) => {
+    setBoard(board);
   });
 };
