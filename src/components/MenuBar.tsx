@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
-import { CellContext } from "../hooks/useCellContext";
-import { CellContextProps } from "../types/types";
 import Link from "next/link";
+import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 
 const MenuBar = () => {
   const {
@@ -13,7 +12,7 @@ const MenuBar = () => {
     handleRestart,
     testCompleteGrid,
     isComplete,
-  } = useContext(CellContext) as CellContextProps;
+  } = useSudokuGridStore();
 
   useEffect(() => {
     if (!isComplete) {
@@ -24,6 +23,7 @@ const MenuBar = () => {
 
       return () => clearInterval(timer);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isComplete, startTime]);
 
   const formattedTime = moment

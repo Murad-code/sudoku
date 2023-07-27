@@ -1,28 +1,30 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-export interface CellContextProps {
-  focusedCellIndex: { row: number; col: number } | undefined;
-  setFocusedCellIndex: Dispatch<
-    SetStateAction<{ row: number; col: number } | undefined>
-  >;
-  selectedNumber: number | undefined;
-  setSelectedNumber: React.Dispatch<React.SetStateAction<number | undefined>>;
+export type CellIndex = { row: number; col: number } | undefined;
+
+export interface ISudokuGridStore {
+  focusedCellIndex: CellIndex | undefined;
+  selectedNumber: number;
   grid: number[][] | null;
-  setGrid?: React.Dispatch<React.SetStateAction<number[][] | null>>;
   solution: number[][] | null;
-  errorCellIndex: { row: number; col: number } | null;
-  setErrorCellIndex: Dispatch<
-    SetStateAction<{ row: number; col: number } | null>
-  >;
-  generateNewSudoku?: () => void;
-  handleRestart?: () => void;
+  errorCellIndex: CellIndex | null;
   startTime: moment.Moment;
-  setStartTime: React.Dispatch<React.SetStateAction<moment.Moment>>;
   elapsedTime: moment.Duration;
-  setElapsedTime: React.Dispatch<React.SetStateAction<moment.Duration>>;
   isComplete: boolean;
-  // testing purposes
-  testCompleteGrid?: () => void;
+  setFocusedCellIndex: (cellIndex: CellIndex | undefined) => void;
+  setSelectedNumber: (number: number | undefined) => void;
+  setGrid: (grid: number[][] | null) => void;
+  setSolution: (solution: number[][] | null) => void;
+  setErrorCellIndex: (cellIndex: CellIndex | null) => void;
+  setStartTime: (startTime: moment.Moment) => void;
+  setElapsedTime: (elapsedTime: moment.Duration) => void;
+  setIsComplete: (isComplete: boolean) => void;
+  generateNewSudoku: () => void;
+  errorMessage: () => void;
+  checkIfComplete: () => void;
+  checkAgainstSolution: () => void;
+  handleRestart: () => void;
+  testCompleteGrid: () => void;
 }
 
 export interface SudokuCellProps {

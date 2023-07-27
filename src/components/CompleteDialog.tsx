@@ -1,13 +1,10 @@
-import React, { useContext, useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CellContext } from "@/hooks/useCellContext";
-import { CellContextProps } from "@/types/types";
 import moment from "moment";
+import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 
 const CompleteDialog = () => {
-  const { isComplete, handleRestart, elapsedTime } = useContext(
-    CellContext
-  ) as CellContextProps;
+  const { isComplete, handleRestart, elapsedTime } = useSudokuGridStore();
   const [show, setShow] = useState(isComplete);
   useEffect(() => {
     setShow(isComplete);

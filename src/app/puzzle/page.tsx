@@ -1,21 +1,26 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Grid from "@/components/game/Grid";
 import InputButtons from "@/components/game/InputButtons";
 import MenuBar from "@/components/MenuBar";
-import CellContextProvider from "@/hooks/useCellContext";
 import CompleteDialog from "@/components/CompleteDialog";
+import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 
 const Puzzle = () => {
+  const { generateNewSudoku } = useSudokuGridStore();
+
+  useEffect(() => {
+    generateNewSudoku();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <CellContextProvider>
-      <div className="flex min-h-screen flex-col items-center p-10">
-        <Grid />
-        <InputButtons />
-        <MenuBar />
-        <CompleteDialog />
-      </div>
-    </CellContextProvider>
+    <div className="flex min-h-screen flex-col items-center p-10">
+      <Grid />
+      <InputButtons />
+      <MenuBar />
+      <CompleteDialog />
+    </div>
   );
 };
 

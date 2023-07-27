@@ -1,16 +1,27 @@
 "use client";
-
-import React, { useContext } from "react";
-import { CellContext } from "@/hooks/useCellContext";
-import { CellContextProps } from "@/types/types";
+import React, { useEffect } from "react";
+import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 
 function InputButtons() {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const { setSelectedNumber } = useContext(CellContext) as CellContextProps;
+  const {
+    selectedNumber,
+    grid,
+    setSelectedNumber,
+    checkAgainstSolution,
+    checkIfComplete,
+  } = useSudokuGridStore();
 
   const handleClick = (number: number) => {
     setSelectedNumber(number);
   };
+
+  useEffect(() => {
+    if (selectedNumber !== 0) checkAgainstSolution();
+    checkIfComplete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedNumber, grid]);
+
   return (
     <div className="grid grid-flow-row grid-cols-3 grid-rows-3 gap-4 mt-4">
       {numbers.map((number) => (

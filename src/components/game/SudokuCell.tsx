@@ -1,15 +1,12 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
-
-import { CellContext } from "../../hooks/useCellContext";
-import { CellContextProps, SudokuCellProps } from "../../types/types";
+import { SudokuCellProps } from "../../types/types";
+import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 
 function SudokuCell({ value, rowIndex, columnIndex }: SudokuCellProps) {
   const [cellValue, setCellValue] = useState(value);
-  const { setFocusedCellIndex, errorCellIndex } = useContext(
-    CellContext
-  ) as CellContextProps;
+  const { setFocusedCellIndex, errorCellIndex } = useSudokuGridStore();
 
   const handleClick = () => {
     setFocusedCellIndex({ row: rowIndex, col: columnIndex });

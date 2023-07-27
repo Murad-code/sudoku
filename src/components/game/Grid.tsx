@@ -1,12 +1,17 @@
 "use client";
-
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import SudokuCell from "./SudokuCell";
-import { CellContext } from "@/hooks/useCellContext";
-import { CellContextProps } from "@/types/types";
+import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 
 function Grid() {
-  const { grid } = useContext(CellContext) as CellContextProps;
+  const { grid, selectedNumber, checkAgainstSolution, checkIfComplete } =
+    useSudokuGridStore();
+
+  useEffect(() => {
+    if (selectedNumber !== 0 || selectedNumber) checkAgainstSolution();
+    checkIfComplete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedNumber, grid]);
 
   return (
     <div className="grid grid-cols-9 mx-auto max-w-md">
