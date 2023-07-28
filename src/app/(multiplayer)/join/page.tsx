@@ -26,9 +26,9 @@ export default function JoinPage() {
     return () => {
       socket.on("disconnect", () => {
         // Implement logic to emit event to remove user from all rooms
-        console.log("socket disconnected client: " + socket.id);
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
 
   const handleRoomJoined = (roomId: string) => {

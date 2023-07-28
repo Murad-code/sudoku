@@ -31,6 +31,7 @@ const HostPage = () => {
 
   useEffect(() => {
     if (socket) listenRoomCreated(socket, handleRoomCreated);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
 
   const handleRoomCreated = (roomId: string) => {

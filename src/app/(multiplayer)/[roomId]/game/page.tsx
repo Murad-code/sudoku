@@ -18,10 +18,9 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
   const { socket, roomId } = useMultiplayerStore();
   const { setGrid } = useSudokuGridStore();
 
-  // TODO: add logic so players who join via link
-
   useEffect(() => {
-    startGame(socket, roomId);
+    if (roomId) startGame(socket, roomId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

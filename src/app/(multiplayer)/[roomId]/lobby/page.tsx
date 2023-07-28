@@ -15,6 +15,7 @@ export default function Lobby({ params }: MultiplayerPuzzleProps) {
 
   useEffect(() => {
     if (socket) listenLobbyUpdated(socket, setPlayers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
 
   return (
