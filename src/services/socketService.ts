@@ -22,11 +22,22 @@ export const joinRoom = (socket: Socket, username: string, roomId: string) => {
   socket.emit("joinRoom", username, roomId);
 };
 
+export const roomNotFound = (socket: Socket) => {
+  socket.on("roomNotFound", () => console.log("Room Not Found"));
+};
+
 export const listenRoomCreated = (
   socket: Socket,
   callback: (roomId: string) => void
 ) => {
   socket.on("roomCreated", callback);
+};
+
+export const listenRoomJoined = (
+  socket: Socket,
+  callback: (roomId: string) => void
+) => {
+  socket.on("roomJoined", callback);
 };
 
 export const listenSocketsInRoom = (
@@ -51,9 +62,10 @@ export const startGame = (socket: Socket, roomId: string) => {
 
 export const listenGameStarted = (
   socket: Socket,
-  setBoard: (board: number[][]) => void
+  setGrid: (board: number[][]) => void
 ) => {
   socket.on("gameStarted", (board) => {
-    setBoard(board);
+    console.log(1222, board);
+    setGrid(board);
   });
 };

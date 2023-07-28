@@ -3,14 +3,26 @@ import CompleteDialog from "@/components/CompleteDialog";
 import MenuBar from "@/components/MenuBar";
 import Grid from "@/components/game/Grid";
 import InputButtons from "@/components/game/InputButtons";
-import { usePlayerStore } from "@/hooks/useMultiplayerState";
+import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
-import { listenGameStarted } from "@/services/socketService";
+import { listenGameStarted, startGame } from "@/services/socketService";
 import { useEffect } from "react";
 
-export default function MultiplayerPuzzle() {
-  const { socket } = usePlayerStore();
+interface MultiplayerPuzzleProps {
+  params: {
+    roomId: string;
+  };
+}
+
+export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
+  const { socket, roomId } = useMultiplayerStore();
   const { setGrid } = useSudokuGridStore();
+
+  // TODO: add logic so players who join via link
+
+  useEffect(() => {
+    startGame(socket, roomId);
+  }, []);
 
   useEffect(() => {
     if (socket) listenGameStarted(socket, setGrid);
