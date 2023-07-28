@@ -47,6 +47,10 @@ export const listenSocketsInRoom = (
   socket.on("socketsInRoom", callback);
 };
 
+export const getLobbyPlayers = (socket: Socket, roomId: string) => {
+  socket.emit("getLobbyPlayers", roomId);
+};
+
 export const listenLobbyUpdated = (
   socket: Socket,
   setPlayers: (players: Player[]) => void

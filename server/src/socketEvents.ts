@@ -48,6 +48,10 @@ export const setupSocketEvents = (io: Server) => {
       console.log(111, game.getBoard());
       console.log(222, game.getSolutionBoard());
     });
+
+    socket.on("getLobbyPlayers", (roomId) => {
+      updateLobby(roomId);
+    });
   });
 
   // Function to emit "lobbyUpdated" event to update lobby information for all sockets in a room

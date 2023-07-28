@@ -1,5 +1,5 @@
 "use client";
-import { listenLobbyUpdated } from "@/services/socketService";
+import { getLobbyPlayers, listenLobbyUpdated } from "@/services/socketService";
 import { useEffect } from "react";
 import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 import Link from "next/link";
@@ -12,6 +12,11 @@ interface MultiplayerPuzzleProps {
 
 export default function Lobby({ params }: MultiplayerPuzzleProps) {
   const { socket, roomId, players, setPlayers, isHost } = useMultiplayerStore();
+
+  useEffect(() => {
+    if (socket && roomId) getLobbyPlayers(socket, roomId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (socket) listenLobbyUpdated(socket, setPlayers);
