@@ -13,16 +13,20 @@ export const initSocket = () => {
   return socket;
 };
 
-export const createRoom = (socket: Socket, name: string) => {
+export const emitCreateRoom = (socket: Socket, name: string) => {
   console.log("createRoom called");
   socket.emit("createRoom", name);
 };
 
-export const joinRoom = (socket: Socket, username: string, roomId: string) => {
+export const emitJoinRoom = (
+  socket: Socket,
+  username: string,
+  roomId: string
+) => {
   socket.emit("joinRoom", username, roomId);
 };
 
-export const roomNotFound = (socket: Socket) => {
+export const listenRoomNotFound = (socket: Socket) => {
   socket.on("roomNotFound", () => console.log("Room Not Found"));
 };
 
@@ -47,7 +51,7 @@ export const listenSocketsInRoom = (
   socket.on("socketsInRoom", callback);
 };
 
-export const getLobbyPlayers = (socket: Socket, roomId: string) => {
+export const emitGetLobbyPlayers = (socket: Socket, roomId: string) => {
   socket.emit("getLobbyPlayers", roomId);
 };
 
@@ -57,19 +61,5 @@ export const listenLobbyUpdated = (
 ) => {
   socket.on("lobbyUpdated", (players) => {
     setPlayers(players);
-  });
-};
-
-export const startGame = (socket: Socket, roomId: string) => {
-  socket.emit("startGame", roomId);
-};
-
-export const listenGameStarted = (
-  socket: Socket,
-  setGrid: (board: number[][]) => void
-) => {
-  socket.on("gameStarted", (board) => {
-    console.log(1222, board);
-    setGrid(board);
   });
 };

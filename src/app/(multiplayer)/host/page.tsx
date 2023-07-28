@@ -1,11 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {
-  createRoom,
-  listenRoomCreated,
-  startGame,
-} from "@/services/socketService";
+import { emitCreateRoom, listenRoomCreated } from "@/services/socketService";
 import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 import { useRouter } from "next/navigation";
 
@@ -22,13 +18,6 @@ const HostPage = () => {
   } = useForm<IForm>();
   const router = useRouter();
 
-  const handleStartGame = (roomId: string) => {
-    // Your custom logic for handling the start game action
-    startGame(socket, roomId);
-
-    // After the custom logic, redirect to the desired page
-  };
-
   useEffect(() => {
     if (socket) listenRoomCreated(socket, handleRoomCreated);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,7 +30,7 @@ const HostPage = () => {
   };
 
   const onSubmit = ({ username }: IForm) => {
-    if (socket) createRoom(socket, username);
+    if (socket) emitCreateRoom(socket, username);
   };
 
   return (

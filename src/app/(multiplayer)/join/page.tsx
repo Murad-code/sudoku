@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { joinRoom, listenRoomJoined } from "@/services/socketService";
+import { emitJoinRoom, listenRoomJoined } from "@/services/socketService";
 import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 import { useRouter } from "next/navigation";
 interface IForm {
@@ -18,7 +18,7 @@ export default function JoinPage() {
   } = useForm<IForm>();
 
   const onSubmit = ({ username, roomId }: IForm) => {
-    if (socket) joinRoom(socket, username, roomId);
+    if (socket) emitJoinRoom(socket, username, roomId);
   };
 
   useEffect(() => {
