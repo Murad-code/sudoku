@@ -1,10 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import { Server as SocketIOServer } from "socket.io";
-import { Server } from "socket.io";
 import { instrument } from "@socket.io/admin-ui";
-import { SudokuGame } from "./models/SudokuGame.js";
-import { SudokuBoard } from "./models/SudokuBoard.js";
 import { setupSocketEvents } from "./controllers/socketEvents.js";
 
 const app = express();

@@ -8,10 +8,11 @@ const MenuBar = () => {
   const {
     startTime,
     elapsedTime,
+    isComplete,
     setElapsedTime,
     handleRestart,
     testCompleteGrid,
-    isComplete,
+    setElapsedTimeToZero,
   } = useSudokuGridStore();
 
   useEffect(() => {
@@ -25,6 +26,10 @@ const MenuBar = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isComplete, startTime]);
+
+  useEffect(() => {
+    setElapsedTimeToZero();
+  }, []);
 
   const formattedTime = moment
     .utc(elapsedTime.asMilliseconds())

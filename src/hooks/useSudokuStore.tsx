@@ -19,12 +19,16 @@ export const useSudokuGridStore = create<ISudokuGridStore>((set) => ({
   setErrorCellIndex: (cellIndex) => set({ errorCellIndex: cellIndex }),
   setStartTime: (startTime) => set({ startTime }),
   setElapsedTime: (elapsedTime) => set({ elapsedTime }),
+  setElapsedTimeToZero: () =>
+    set({ startTime: moment(), elapsedTime: moment.duration(0) }),
   setIsComplete: (isComplete) => set({ isComplete }),
 
-  generateNewSudoku: () => {
-    const { grid, solution } = generateSudoku();
-    set({ grid: grid, solution: solution });
-  },
+  generateNewSudoku: () =>
+    set(({ setElapsedTimeToZero }) => {
+      const { grid, solution } = generateSudoku();
+      setElapsedTimeToZero();
+      return { grid: grid, solution: solution };
+    }),
 
   checkAgainstSolution: () =>
     set(

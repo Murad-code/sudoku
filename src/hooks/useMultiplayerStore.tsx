@@ -22,7 +22,5 @@ export const useMultiplayerStore = create<IMultiplayerStore>()((set) => ({
   setRoomId: (roomId: string) => set({ roomId }),
   setIsHost: () => set({ isHost: true }),
 
-  
-
 
 }));

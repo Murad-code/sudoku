@@ -1,4 +1,4 @@
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import { Player } from "../models/Player.js";
 import { SudokuGame } from "../models/SudokuGame.js";
 
@@ -45,8 +45,6 @@ export const setupSocketEvents = (io: Server) => {
     socket.on("startGame", (roomId) => {
       const game = new SudokuGame(roomId);
       io.to(roomId).emit("gameStarted", game.getBoard());
-      console.log(111, game.getBoard());
-      console.log(222, game.getSolutionBoard());
     });
 
     socket.on("getLobbyPlayers", (roomId) => {

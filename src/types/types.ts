@@ -18,6 +18,7 @@ export interface ISudokuGridStore {
   setErrorCellIndex: (cellIndex: CellIndex | null) => void;
   setStartTime: (startTime: moment.Moment) => void;
   setElapsedTime: (elapsedTime: moment.Duration) => void;
+  setElapsedTimeToZero: () => void;
   setIsComplete: (isComplete: boolean) => void;
   generateNewSudoku: () => void;
   errorMessage: () => void;
