@@ -14,17 +14,11 @@ interface IMultiplayerStore {
   setIsHost: () => void;
 }
 
-type playerData = {
-  socketId: string;
-  player: Player;
-};
-
 export const useMultiplayerStore = create<IMultiplayerStore>()((set) => ({
   socket: initSocket(),
   players: new Map<string, Player>(),
   isHost: false,
   setPlayers: (players) => set({ players: players }),
-
   updatePlayers: (id, player) =>
     set(({ players }) => {
       const newPlayersMap = new Map(players);

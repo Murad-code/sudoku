@@ -1,26 +1,14 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import moment from "moment";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
-import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
-import { listenIfComplete } from "@/services/gameService";
 
 const CompleteDialog = () => {
-  const { socket } = useMultiplayerStore();
-  const { handleRestart, elapsedTime } = useSudokuGridStore();
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    if (socket)
-      listenIfComplete(socket, (isComplete) =>
-        handlePlayerComplete(isComplete)
-      );
-  }, [socket]);
+  const { handleRestart, finalTime, isComplete } = useSudokuGridStore();
+  const [show, setShow] = useState(isComplete);
 
-  const handlePlayerComplete = (isComplete: boolean) => {
-    if (isComplete) {
-      setShow(true);
-    }
-  };
+  useEffect(() => {
+    setShow(isComplete);
+  }, [isComplete]);
 
   return (
     <>
@@ -68,8 +56,7 @@ const CompleteDialog = () => {
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500 border-t pt-2">
-                    Well done, you finished in{" "}
-                    {moment.utc(elapsedTime.asMilliseconds()).format("mm:ss")}
+                    Well done, you finished in {finalTime}
                   </p>
                 </div>
 

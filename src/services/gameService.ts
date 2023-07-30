@@ -57,6 +57,15 @@ export const listenIfComplete = (
   });
 };
 
+export const listenIfOthersComplete = (
+  socket: Socket,
+  callback: (playerId: string) => void
+) => {
+  socket.on("otherPlayerCompleted", (playerId) => {
+    // setState on Players inside zustand only updating the player completed
+  });
+};
+
 export const listenIfPlayerDataUpdated = (
   socket: Socket,
   callback: (id: string, player: Player) => void
@@ -64,4 +73,8 @@ export const listenIfPlayerDataUpdated = (
   socket.on("playerDataUpdated", (id, player) => {
     callback(id, player);
   });
+};
+
+export const emitDevCompleteBoard = (socket: Socket, playerId: string) => {
+  socket.emit("devCompleteBoard", playerId);
 };

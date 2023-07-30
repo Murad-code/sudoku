@@ -1,11 +1,11 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import moment from "moment";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 
 const CompleteDialog = () => {
-  const { isComplete, handleRestart, elapsedTime } = useSudokuGridStore();
+  const { handleRestart, finalTime, isComplete } = useSudokuGridStore();
   const [show, setShow] = useState(isComplete);
+
   useEffect(() => {
     setShow(isComplete);
   }, [isComplete]);
@@ -56,8 +56,7 @@ const CompleteDialog = () => {
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500 border-t pt-2">
-                    Well done, you finished in{" "}
-                    {moment.utc(elapsedTime.asMilliseconds()).format("mm:ss")}
+                    Well done, you finished in {finalTime}
                   </p>
                 </div>
 

@@ -1,8 +1,11 @@
+import { Duration } from "moment";
+
 export class Player {
   private id: string;
   private name!: string;
   private score: number;
   private board?: number[][];
+  private time?: Duration; // Only stores the time taken to complete puzzle, set by client side
 
   constructor(id: string, name?: string, board?: number[][]) {
     this.id = id;
@@ -33,6 +36,14 @@ export class Player {
 
   getBoard() {
     return this.board;
+  }
+
+  getTime() {
+    return this.time;
+  }
+
+  setTime(time: Duration) {
+    this.time = time;
   }
 
   incrementScore() {

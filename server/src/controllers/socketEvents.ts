@@ -46,7 +46,7 @@ export const setupSocketEvents = (io: Server) => {
     socket.on("startGame", (roomId) => {
       const game = new SudokuGame(roomId, listOfPlayers);
       io.to(roomId).emit("gameStarted", game.getBoard());
-      
+
       setupGameEvents(io, socket, game);
     });
 

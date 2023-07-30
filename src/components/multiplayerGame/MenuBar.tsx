@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import moment from "moment";
 import Link from "next/link";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
+import { emitDevCompleteBoard } from "@/services/gameService";
+import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 
 const MenuBar = () => {
   const {
@@ -10,10 +12,12 @@ const MenuBar = () => {
     elapsedTime,
     isComplete,
     setElapsedTime,
+    setFinalTime,
     handleRestart,
-    testCompleteGrid,
     setElapsedTimeToZero,
   } = useSudokuGridStore();
+
+  const { socket } = useMultiplayerStore();
 
   useEffect(() => {
     if (!isComplete) {
@@ -21,9 +25,9 @@ const MenuBar = () => {
         const duration = moment.duration(moment().diff(startTime));
         setElapsedTime(duration);
       }, 1000);
-
       return () => clearInterval(timer);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isComplete, startTime]);
 
@@ -34,6 +38,10 @@ const MenuBar = () => {
   const formattedTime = moment
     .utc(elapsedTime.asMilliseconds())
     .format("mm ss");
+
+  const handleComplete = () => {
+    emitDevCompleteBoard(socket, socket.id);
+  };
 
   return (
     <>
@@ -57,7 +65,7 @@ const MenuBar = () => {
       </nav>
       <div>
         <button
-          onClick={testCompleteGrid}
+          onClick={handleComplete}
           className="bg-[#f5f5f5] px-4 py-2 rounded shadow-sm mt-8"
         >
           Complete

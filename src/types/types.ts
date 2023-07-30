@@ -8,6 +8,7 @@ export interface ISudokuGridStore {
   errorCellIndex: CellIndex | null;
   startTime: moment.Moment;
   elapsedTime: moment.Duration;
+  finalTime: string;
   isComplete: boolean;
   setFocusedCellIndex: (cellIndex: CellIndex | undefined) => void;
   setSelectedNumber: (number: number | undefined) => void;
@@ -17,6 +18,7 @@ export interface ISudokuGridStore {
   setStartTime: (startTime: moment.Moment) => void;
   setElapsedTime: (elapsedTime: moment.Duration) => void;
   setElapsedTimeToZero: () => void;
+  setFinalTime: (time: moment.Duration) => void;
   setIsComplete: (isComplete: boolean) => void;
   generateNewSudoku: () => void;
   errorMessage: () => void;

@@ -11,6 +11,7 @@ export const useSudokuGridStore = create<ISudokuGridStore>((set) => ({
   errorCellIndex: null,
   startTime: moment(),
   elapsedTime: moment.duration(),
+  finalTime: "",
   isComplete: false,
   setFocusedCellIndex: (cellIndex) => set({ focusedCellIndex: cellIndex }),
   setSelectedNumber: (number) => set({ selectedNumber: number }),
@@ -21,6 +22,8 @@ export const useSudokuGridStore = create<ISudokuGridStore>((set) => ({
   setElapsedTime: (elapsedTime) => set({ elapsedTime }),
   setElapsedTimeToZero: () =>
     set({ startTime: moment(), elapsedTime: moment.duration(0) }),
+  setFinalTime: (time) =>
+    set({ finalTime: moment.utc(time.asMilliseconds()).format("mm:ss") }),
   setIsComplete: (isComplete) => set({ isComplete }),
 
   generateNewSudoku: () =>
@@ -60,7 +63,7 @@ export const useSudokuGridStore = create<ISudokuGridStore>((set) => ({
     }),
 
   checkIfComplete: () =>
-    set(({ grid, solution }) => {
+    set(({ grid, solution, elapsedTime, setFinalTime }) => {
       if (grid && solution) {
         let hasMismatch = false; // Flag to track if any mismatched values are found
 
@@ -75,7 +78,10 @@ export const useSudokuGridStore = create<ISudokuGridStore>((set) => ({
             break; // Exit the outer loop if a mismatch is found
           }
         }
-        return { isComplete: !hasMismatch }; // Set the state based on the hasMismatch flag
+        if (!hasMismatch) {
+          setFinalTime(elapsedTime);
+          return { isComplete: true };
+        }
       }
       return {};
     }),

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Grid from "@/components/singleGame/Grid";
 import InputButtons from "@/components/singleGame/InputButtons";
-import MenuBar from "@/components/MenuBar";
+import MenuBar from "@/components/singleGame/MenuBar";
 import CompleteDialog from "@/components/singleGame/CompleteDialog";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 

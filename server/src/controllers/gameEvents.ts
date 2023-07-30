@@ -41,6 +41,15 @@ export const setupGameEvents = (
   );
   socket.on("handleRestart", () => {});
 
+  socket.on("devCompleteBoard", (playerId: string) => {
+    const player = game.getPlayerData(playerId);
+    const solution = game.getSolutionBoard();
+    player?.setBoard(solution);
+    // io.to(playerId).emit("devBoardComplete", game.getSolutionBoard());
+    if (player) emitPlayerDataUpdate(playerId, player); // if check needed because map.get returns Player | undefined
+    checkIfComplete(playerId, game.getSolutionBoard(), solution);
+  });
+
   const checkIfComplete = (
     playerId: string,
     grid: number[][],
@@ -60,7 +69,7 @@ export const setupGameEvents = (
           break; // Exit the outer loop if a mismatch is found
         }
       }
-      if (!hasMismatch) socket.emit("completed", playerId);
+      if (!hasMismatch) io.to(playerId).emit("completed", true);
     }
   };
 
