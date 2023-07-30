@@ -34,4 +34,10 @@ export interface Player {
   id: string;
   name: string;
   score: number;
+  board?: number[][];
+}
+
+export interface PlayerData {
+  socketId: string;
+  player: Player;
 }

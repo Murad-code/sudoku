@@ -1,8 +1,9 @@
 import { Server } from "socket.io";
 import { Player } from "../models/Player.js";
 import { SudokuGame } from "../models/SudokuGame.js";
+import { setupGameEvents } from "./gameEvents.js";
 
-const playerData: { [id: string]: Player } = {}; // Centralized player data storage
+const listOfPlayers = new Map<string, Player>(); // Centralized player data storage
 
 // Defines the socket event handlers
 export const setupSocketEvents = (io: Server) => {
@@ -11,17 +12,17 @@ export const setupSocketEvents = (io: Server) => {
     socket.on("disconnect", () => {
       console.log("user disconnected: " + socket.id);
       // Clean up player data when socket disconnects
-      if (playerData[socket.id]) {
-        delete playerData[socket.id];
+      if (listOfPlayers.has(socket.id)) {
+        listOfPlayers.delete(socket.id);
       }
     });
 
     // Host route handler
     socket.on("createRoom", (name) => {
       const player = new Player(socket.id, name);
-      playerData[socket.id] = player; // Store player data
-
+      listOfPlayers.set(socket.id, player);
       const room = Math.random().toString(36).substring(7); // Generate a random room ID
+
       socket.join(room);
       socket.emit("roomCreated", room);
 
@@ -31,7 +32,7 @@ export const setupSocketEvents = (io: Server) => {
     // Join route handler
     socket.on("joinRoom", (name, room) => {
       const player = new Player(socket.id, name);
-      playerData[socket.id] = player; // Store player data
+      listOfPlayers.set(socket.id, player);
 
       if (io.sockets.adapter.rooms.has(room)) {
         socket.join(room);
@@ -43,8 +44,10 @@ export const setupSocketEvents = (io: Server) => {
     });
 
     socket.on("startGame", (roomId) => {
-      const game = new SudokuGame(roomId);
+      const game = new SudokuGame(roomId, listOfPlayers);
       io.to(roomId).emit("gameStarted", game.getBoard());
+      
+      setupGameEvents(io, socket, game);
     });
 
     socket.on("getLobbyPlayers", (roomId) => {
@@ -55,8 +58,10 @@ export const setupSocketEvents = (io: Server) => {
   // Function to emit "lobbyUpdated" event to update lobby information for all sockets in a room
   function updateLobby(room: string) {
     const socketsInRoom = Array.from(io.sockets.adapter.rooms.get(room) || []);
-    const playersInRoom = socketsInRoom.map((socketId) => playerData[socketId]);
-    console.log("Players in lobby: " + JSON.stringify(playersInRoom));
+    const playersInRoom = socketsInRoom.map((socketId) => ({
+      socketId,
+      player: listOfPlayers.get(socketId),
+    }));
     io.to(room).emit("lobbyUpdated", playersInRoom);
   }
 };

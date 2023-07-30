@@ -1,4 +1,4 @@
-import { Player } from "@/types/socketio";
+import { Player, PlayerData } from "@/types/socketio";
 import { Socket, io } from "socket.io-client";
 
 export const initSocket = () => {
@@ -57,9 +57,13 @@ export const emitGetLobbyPlayers = (socket: Socket, roomId: string) => {
 
 export const listenLobbyUpdated = (
   socket: Socket,
-  setPlayers: (players: Player[]) => void
+  setPlayers: (players: Map<string, Player>) => void
 ) => {
-  socket.on("lobbyUpdated", (players) => {
-    setPlayers(players);
+  socket.on("lobbyUpdated", (playersInRoom: PlayerData[]) => {
+    const map = new Map<string, Player>();
+    playersInRoom.forEach((playerData) => {
+      map.set(playerData.socketId, playerData.player);
+    });
+    setPlayers(map);
   });
 };

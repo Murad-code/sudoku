@@ -1,19 +1,24 @@
 "use client";
 import React, { useEffect } from "react";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
+import { emitCheckAgainstSolution } from "@/services/gameService";
+import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 
 function InputButtons() {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const { socket } = useMultiplayerStore();
   const {
     selectedNumber,
     grid,
+    focusedCellIndex,
     setSelectedNumber,
     checkAgainstSolution,
     checkIfComplete,
   } = useSudokuGridStore();
 
   const handleClick = (number: number) => {
-    setSelectedNumber(number);
+    emitCheckAgainstSolution(socket, number, focusedCellIndex);
+    // setSelectedNumber(number);
   };
 
   useEffect(() => {

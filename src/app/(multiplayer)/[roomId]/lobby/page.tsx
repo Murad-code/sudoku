@@ -48,7 +48,9 @@ export default function Lobby({ params }: MultiplayerPuzzleProps) {
       <div>
         <h2>Lobby</h2>
         {players &&
-          players.map((player) => <ul key={player.id}>{player.name}</ul>)}
+          Array.from(players.values()).map((player) => (
+            <ul key={player.id}>{player.name}</ul>
+          ))}
         {/* Add lobby content here */}
       </div>
       {isHost && (

@@ -1,5 +1,3 @@
-import React, { Dispatch, SetStateAction } from "react";
-
 export type CellIndex = { row: number; col: number } | undefined;
 
 export interface ISudokuGridStore {
