@@ -1,4 +1,5 @@
 import { Player, PlayerData } from "@/types/socketio";
+import { convertObjToMap } from "@/utils/convertObjToMap";
 import { Socket, io } from "socket.io-client";
 
 export const initSocket = () => {
@@ -60,10 +61,7 @@ export const listenLobbyUpdated = (
   setPlayers: (players: Map<string, Player>) => void
 ) => {
   socket.on("lobbyUpdated", (playersInRoom: PlayerData[]) => {
-    const map = new Map<string, Player>();
-    playersInRoom.forEach((playerData) => {
-      map.set(playerData.socketId, playerData.player);
-    });
+    const map = convertObjToMap(playersInRoom);
     setPlayers(map);
   });
 };

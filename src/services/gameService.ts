@@ -1,5 +1,6 @@
-import { Player } from "@/types/socketio";
+import { Player, PlayerData } from "@/types/socketio";
 import { CellIndex } from "@/types/types";
+import { convertObjToMap } from "@/utils/convertObjToMap";
 import { Socket } from "socket.io-client";
 
 export const emitStartGame = (socket: Socket, roomId: string) => {
@@ -34,15 +35,6 @@ export const emitFinalTime = (socket: Socket, finalTime: string) => {
   socket.emit("setFinalTime", socket.id, finalTime);
 };
 
-export const listenCorrectValue = (
-  socket: Socket,
-  setGrid: (grid: number[][]) => void
-) => {
-  socket.on("correctValue", (grid) => {
-    setGrid(grid);
-  });
-};
-
 export const listenIncorrectValue = (
   socket: Socket,
   setErrorCellIndex: (cellIndex: CellIndex) => void
@@ -70,21 +62,13 @@ export const listenIfOthersCompleted = (
   });
 };
 
-export const listenIfOthersComplete = (
-  socket: Socket,
-  callback: (playerId: string) => void
-) => {
-  socket.on("otherPlayerCompleted", (playerId) => {
-    // setState on Players inside zustand only updating the player completed
-  });
-};
-
 export const listenIfPlayerDataUpdated = (
   socket: Socket,
-  callback: (id: string, player: Player) => void
+  callback: (players: Map<string, Player>) => void
 ) => {
-  socket.on("playerDataUpdated", (id, player) => {
-    callback(id, player);
+  socket.on("playerDataUpdated", (playersInRoom: PlayerData[]) => {
+    const map = convertObjToMap(playersInRoom);
+    callback(map);
   });
 };
 

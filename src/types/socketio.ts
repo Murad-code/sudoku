@@ -1,4 +1,3 @@
-import { Duration } from "moment";
 import { Server as NetServer, Socket } from "net";
 import { NextApiResponse } from "next";
 import { Server as SocketIOServer } from "socket.io";
@@ -35,11 +34,11 @@ export interface Player {
   id: string;
   name: string;
   score: number;
-  board?: number[][];
+  board: number[][];
   time?: string;
 }
 
 export interface PlayerData {
-  socketId: string;
+  id: string;
   player: Player;
 }

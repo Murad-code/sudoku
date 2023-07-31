@@ -48,6 +48,17 @@ export const setupSocketEvents = (io: Server) => {
       io.to(roomId).emit("gameStarted", game.getBoard());
 
       setupGameEvents(io, socket, game);
+
+      // Loop through all sockets in the room and call setupGameEvents for each socket
+      const socketsInRoom = Array.from(
+        io.sockets.adapter.rooms.get(roomId) || []
+      );
+      socketsInRoom.forEach((socketId) => {
+        const socketInRoom = io.sockets.sockets.get(socketId);
+        if (socketInRoom) {
+          setupGameEvents(io, socketInRoom, game);
+        }
+      });
     });
 
     socket.on("getLobbyPlayers", (roomId) => {
@@ -58,9 +69,9 @@ export const setupSocketEvents = (io: Server) => {
   // Function to emit "lobbyUpdated" event to update lobby information for all sockets in a room
   function updateLobby(room: string) {
     const socketsInRoom = Array.from(io.sockets.adapter.rooms.get(room) || []);
-    const playersInRoom = socketsInRoom.map((socketId) => ({
-      socketId,
-      player: listOfPlayers.get(socketId),
+    const playersInRoom = socketsInRoom.map((id) => ({
+      id,
+      player: listOfPlayers.get(id),
     }));
     io.to(room).emit("lobbyUpdated", playersInRoom);
   }

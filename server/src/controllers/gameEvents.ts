@@ -22,16 +22,15 @@ export const setupGameEvents = (
           solution[focusedCellIndex.row][focusedCellIndex.col]
         ) {
           if (player) {
-            player.setBoard = newGrid;
+            player.setBoard(newGrid);
             player.incrementScore();
-            emitPlayerDataUpdate(playerId, player); // if check needed because map.get returns Player | undefined
+            emitPlayerDataUpdate(playerId); // if check needed because map.get returns Player | undefined
           }
           checkIfComplete(playerId, newGrid, solution);
-          socket.emit("correctValue", newGrid);
         } else {
           if (player) {
             player.decrementScore();
-            emitPlayerDataUpdate(playerId, player); // if check needed because map.get returns Player | undefined
+            emitPlayerDataUpdate(playerId); // if check needed because map.get returns Player | undefined
           }
 
           emitIncorrectValue(playerId, focusedCellIndex);
@@ -45,14 +44,16 @@ export const setupGameEvents = (
     const player = game.getPlayerData(playerId);
     const solution = game.getSolutionBoard();
     player?.setBoard(solution);
-    // io.to(playerId).emit("devBoardComplete", game.getSolutionBoard());
-    if (player) emitPlayerDataUpdate(playerId, player); // if check needed because map.get returns Player | undefined
+    if (player) emitPlayerDataUpdate(playerId); // if check needed because map.get returns Player | undefined
     checkIfComplete(playerId, game.getSolutionBoard(), solution);
   });
 
   socket.on("setFinalTime", (playerId: string, finalTime: string) => {
     const player = game.getPlayerData(playerId);
-    player?.setTime(finalTime);
+    if (player) {
+      player.setTime(finalTime);
+      emitPlayerDataUpdate(playerId);
+    }
   });
 
   const checkIfComplete = (
@@ -87,8 +88,17 @@ export const setupGameEvents = (
     socket.to(roomId).emit("playerCompleted", player);
   };
 
-  const emitPlayerDataUpdate = (playerId: string, player: Player) => {
-    socket.emit("playerDataUpdated", playerId, player);
+  const emitPlayerDataUpdate = (playerId: string) => {
+    const roomId = game.getRoomId();
+    const players = game.getListOfPlayers();
+    const playersArray: { id: string; player: Player }[] = Array.from(
+      players,
+      ([key, player]) => ({
+        id: key,
+        player,
+      })
+    );
+    io.to(roomId).emit("playerDataUpdated", playersArray);
   };
 
   const emitIncorrectValue = (

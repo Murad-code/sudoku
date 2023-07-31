@@ -6,7 +6,6 @@ import InputButtons from "@/components/multiplayerGame/InputButtons";
 import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 import {
-  listenCorrectValue,
   listenIfPlayerDataUpdated,
   listenIncorrectValue,
   listenIfComplete,
@@ -23,7 +22,7 @@ interface MultiplayerPuzzleProps {
 }
 
 export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
-  const { socket, updatePlayers } = useMultiplayerStore();
+  const { socket, updatePlayers, setPlayers } = useMultiplayerStore();
   const {
     elapsedTime,
     isComplete,
@@ -31,13 +30,13 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
     setErrorCellIndex,
     setGrid,
     setIsComplete,
+    grid,
     setFinalTime,
   } = useSudokuGridStore();
 
   useEffect(() => {
     if (socket) {
       listenIncorrectValue(socket, setErrorCellIndex);
-      listenCorrectValue(socket, setGrid);
       listenIfPlayerDataUpdated(socket, handlePlayerDataUpdate);
       listenIfComplete(socket, handleComplete);
       listenIfOthersCompleted(socket, handleOthersCompleted);
@@ -46,19 +45,25 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
 
   const handleComplete = (isComplete: boolean) => {
     setIsComplete(isComplete);
-    emitFinalTime(socket, finalTime);
   };
 
   const handleOthersCompleted = (player: Player) => {
     console.log("Someone's already done!: ", player);
   };
 
-  const handlePlayerDataUpdate = (id: string, player: Player) => {
-    updatePlayers(id, player);
+  const handlePlayerDataUpdate = (players: Map<string, Player>) => {
+    const myPlayer = players.get(socket.id);
+    if (myPlayer) {
+      setGrid(myPlayer.board);
+    }
+    setPlayers(players);
+    // updatePlayers(id, player);
+    // if (player.board) setGrid(player.board);
   };
 
   useEffect(() => {
     if (isComplete) {
+      emitFinalTime(socket, finalTime);
       setFinalTime(elapsedTime);
     }
   }, [isComplete]);
