@@ -10,6 +10,8 @@ import {
   listenIfPlayerDataUpdated,
   listenIncorrectValue,
   listenIfComplete,
+  listenIfOthersCompleted,
+  emitFinalTime,
 } from "@/services/gameService";
 import { useEffect } from "react";
 import { Player } from "@/types/socketio";
@@ -25,6 +27,7 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
   const {
     elapsedTime,
     isComplete,
+    finalTime,
     setErrorCellIndex,
     setGrid,
     setIsComplete,
@@ -37,11 +40,17 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
       listenCorrectValue(socket, setGrid);
       listenIfPlayerDataUpdated(socket, handlePlayerDataUpdate);
       listenIfComplete(socket, handleComplete);
+      listenIfOthersCompleted(socket, handleOthersCompleted);
     }
   }, [socket]);
 
   const handleComplete = (isComplete: boolean) => {
     setIsComplete(isComplete);
+    emitFinalTime(socket, finalTime);
+  };
+
+  const handleOthersCompleted = (player: Player) => {
+    console.log("Someone's already done!: ", player);
   };
 
   const handlePlayerDataUpdate = (id: string, player: Player) => {

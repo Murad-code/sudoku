@@ -36,7 +36,7 @@ export interface Player {
   name: string;
   score: number;
   board?: number[][];
-  time?: Duration;
+  time?: string;
 }
 
 export interface PlayerData {

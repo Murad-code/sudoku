@@ -30,6 +30,10 @@ export const emitCheckAgainstSolution = (
   );
 };
 
+export const emitFinalTime = (socket: Socket, finalTime: string) => {
+  socket.emit("setFinalTime", socket.id, finalTime);
+};
+
 export const listenCorrectValue = (
   socket: Socket,
   setGrid: (grid: number[][]) => void
@@ -54,6 +58,15 @@ export const listenIfComplete = (
 ) => {
   socket.on("completed", (isComplete) => {
     callback(isComplete);
+  });
+};
+
+export const listenIfOthersCompleted = (
+  socket: Socket,
+  callback: (player: Player) => void
+) => {
+  socket.on("playerCompleted", (player) => {
+    callback(player);
   });
 };
 

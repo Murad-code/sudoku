@@ -50,6 +50,11 @@ export const setupGameEvents = (
     checkIfComplete(playerId, game.getSolutionBoard(), solution);
   });
 
+  socket.on("setFinalTime", (playerId: string, finalTime: string) => {
+    const player = game.getPlayerData(playerId);
+    player?.setTime(finalTime);
+  });
+
   const checkIfComplete = (
     playerId: string,
     grid: number[][],
@@ -69,8 +74,17 @@ export const setupGameEvents = (
           break; // Exit the outer loop if a mismatch is found
         }
       }
-      if (!hasMismatch) io.to(playerId).emit("completed", true);
+      if (!hasMismatch) {
+        emitPlayerCompleted(playerId);
+      }
     }
+  };
+
+  const emitPlayerCompleted = (playerId: string) => {
+    const roomId = game.getRoomId();
+    const player = game.getPlayerData(playerId);
+    socket.emit("completed", true);
+    socket.to(roomId).emit("playerCompleted", player);
   };
 
   const emitPlayerDataUpdate = (playerId: string, player: Player) => {
