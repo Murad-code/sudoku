@@ -85,7 +85,7 @@ export const setupGameEvents = (
     const roomId = game.getRoomId();
     const player = game.getPlayerData(playerId);
     socket.emit("completed", true);
-    socket.to(roomId).emit("playerCompleted", player);
+    socket.to(roomId).emit("otherPlayerCompleted", player);
   };
 
   const emitPlayerDataUpdate = (playerId: string) => {

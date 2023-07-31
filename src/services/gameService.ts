@@ -57,7 +57,7 @@ export const listenIfOthersCompleted = (
   socket: Socket,
   callback: (player: Player) => void
 ) => {
-  socket.on("playerCompleted", (player) => {
+  socket.on("otherPlayerCompleted", (player) => {
     callback(player);
   });
 };
