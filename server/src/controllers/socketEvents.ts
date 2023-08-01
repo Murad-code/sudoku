@@ -47,8 +47,6 @@ export const setupSocketEvents = (io: Server) => {
       const game = new SudokuGame(roomId, listOfPlayers);
       io.to(roomId).emit("gameStarted", game.getBoard());
 
-      setupGameEvents(io, socket, game);
-
       // Loop through all sockets in the room and call setupGameEvents for each socket
       const socketsInRoom = Array.from(
         io.sockets.adapter.rooms.get(roomId) || []
