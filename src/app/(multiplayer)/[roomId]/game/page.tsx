@@ -22,7 +22,7 @@ interface MultiplayerPuzzleProps {
 }
 
 export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
-  const { socket, updatePlayers, setPlayers } = useMultiplayerStore();
+  const { socket, setPlayers } = useMultiplayerStore();
   const {
     elapsedTime,
     isComplete,
@@ -30,7 +30,6 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
     setErrorCellIndex,
     setGrid,
     setIsComplete,
-    grid,
     setFinalTime,
   } = useSudokuGridStore();
 
@@ -57,16 +56,17 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
       setGrid(myPlayer.board);
     }
     setPlayers(players);
-    // updatePlayers(id, player);
-    // if (player.board) setGrid(player.board);
   };
 
   useEffect(() => {
     if (isComplete) {
-      emitFinalTime(socket, finalTime);
       setFinalTime(elapsedTime);
     }
   }, [isComplete]);
+
+  useEffect(() => {
+    emitFinalTime(socket, finalTime);
+  }, [finalTime]);
 
   return (
     <div className="flex min-h-screen flex-col items-center p-10">

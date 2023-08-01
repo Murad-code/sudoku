@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 import { emitDevCompleteBoard } from "@/services/gameService";
 import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
+import ScoreBoard from "./ScoreBoard";
 
 const MenuBar = () => {
   const {
@@ -71,6 +72,7 @@ const MenuBar = () => {
           Complete
         </button>
       </div>
+      <ScoreBoard />
     </>
   );
 };
