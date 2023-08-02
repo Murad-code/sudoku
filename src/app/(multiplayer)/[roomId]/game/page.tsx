@@ -14,6 +14,7 @@ import {
 } from "@/services/gameService";
 import { useEffect } from "react";
 import { Player } from "@/types/socketio";
+import { toast } from "react-toastify";
 
 interface MultiplayerPuzzleProps {
   params: {
@@ -47,6 +48,7 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
   };
 
   const handleOthersCompleted = (player: Player) => {
+    toast(`${player.name} has finished!`);
     console.log("Someone's already done!: ", player);
   };
 

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { listenGameStarted, emitStartGame } from "@/services/gameService";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 import { toast } from "react-toastify";
+import copy from "copy-to-clipboard";
 
 interface MultiplayerPuzzleProps {
   params: {
@@ -44,6 +45,7 @@ export default function Lobby({ params }: MultiplayerPuzzleProps) {
   };
 
   const showCopied = () => {
+    copy(roomId);
     toast("Room ID copied");
   };
 
