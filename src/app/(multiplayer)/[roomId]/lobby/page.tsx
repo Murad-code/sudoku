@@ -8,6 +8,7 @@ import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 import { useRouter } from "next/navigation";
 import { listenGameStarted, emitStartGame } from "@/services/gameService";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
+import { toast } from "react-toastify";
 
 interface MultiplayerPuzzleProps {
   params: {
@@ -42,9 +43,15 @@ export default function Lobby({ params }: MultiplayerPuzzleProps) {
     router.push(`/${roomId}/game`);
   };
 
+  const showCopied = () => {
+    toast("Room ID copied");
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center p-10">
-      <div>Your Room ID is: {roomId}</div>
+      <div>
+        Your Room ID is: <button onClick={() => showCopied()}>{roomId}</button>
+      </div>
       <div>
         <h2>Lobby</h2>
         {players &&
