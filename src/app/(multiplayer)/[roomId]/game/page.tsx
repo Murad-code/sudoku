@@ -15,6 +15,7 @@ import {
 import { useEffect } from "react";
 import { Player } from "@/types/socketio";
 import { toast } from "react-toastify";
+import ConfettiAnimation from "@/components/ConfettiAnimation";
 
 interface MultiplayerPuzzleProps {
   params: {
@@ -72,6 +73,7 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
 
   return (
     <div className="flex min-h-screen flex-col items-center p-10">
+      <ConfettiAnimation />
       <Grid />
       <InputButtons />
       <MenuBar />

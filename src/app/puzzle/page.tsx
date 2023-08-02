@@ -5,6 +5,7 @@ import InputButtons from "@/components/singleGame/InputButtons";
 import MenuBar from "@/components/singleGame/MenuBar";
 import CompleteDialog from "@/components/singleGame/CompleteDialog";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
+import ConfettiAnimation from "@/components/ConfettiAnimation";
 
 const Puzzle = () => {
   const { generateNewSudoku } = useSudokuGridStore();
@@ -16,6 +17,7 @@ const Puzzle = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center p-10">
+      <ConfettiAnimation />
       <Grid />
       <InputButtons />
       <MenuBar />
