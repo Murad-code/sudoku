@@ -21,7 +21,11 @@ export const useSudokuGridStore = create<ISudokuGridStore>((set) => ({
   setStartTime: (startTime) => set({ startTime }),
   setElapsedTime: (elapsedTime) => set({ elapsedTime }),
   setElapsedTimeToZero: () =>
-    set({ startTime: moment(), elapsedTime: moment.duration(0) }),
+    set({
+      startTime: moment(),
+      elapsedTime: moment.duration(0),
+      finalTime: "",
+    }),
   setFinalTime: (time) =>
     set({ finalTime: moment.utc(time.asMilliseconds()).format("mm:ss") }),
   setIsComplete: (isComplete) => set({ isComplete }),

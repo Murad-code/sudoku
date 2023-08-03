@@ -1,14 +1,21 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
+import { emitRestartGame } from "@/services/gameService";
+import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 
 const CompleteDialog = () => {
-  const { handleRestart, finalTime, isComplete } = useSudokuGridStore();
+  const { finalTime, isComplete } = useSudokuGridStore();
+  const { socket, roomId } = useMultiplayerStore();
   const [show, setShow] = useState(isComplete);
 
   useEffect(() => {
     setShow(isComplete);
   }, [isComplete]);
+
+  const handleRestart = () => {
+    if (roomId) emitRestartGame(socket, roomId);
+  };
 
   return (
     <>
@@ -64,7 +71,7 @@ const CompleteDialog = () => {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 duration-300"
+                      className="inline-flex justify-center px-4 py-2 text-sm text-green-700 bg-green-200 border border-transparent rounded-md hover:bg-green-300 duration-300"
                       onClick={handleRestart}
                     >
                       Play Again
@@ -73,7 +80,7 @@ const CompleteDialog = () => {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300"
+                      className="inline-flex justify-center px-4 py-2 text-sm text-red-700 bg-red-200 border border-transparent rounded-md hover:bg-red-300 duration-300"
                       onClick={() => setShow(false)}
                     >
                       Close

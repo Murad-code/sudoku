@@ -6,19 +6,19 @@ export default function Home() {
       <h1 className="mx-auto mt-20 text-4xl">Welcome to Sudoku!</h1>
       <div className="flex flex-col mx-24 items-center mt-20 space-y-6">
         <Link
-          className="p-6 bg-slate-600 hover:bg-slate-700 rounded text-white w-64 drop-shadow-sm"
+          className="p-6 bg-red-400 hover:bg-red-500 rounded text-white w-64 drop-shadow-sm"
           href="/puzzle"
         >
           Play Sudoku
         </Link>
         <Link
-          className="p-6 bg-blue-600 hover:bg-blue-700 rounded text-white w-64 drop-shadow-sm"
+          className="p-6 bg-blue-400 hover:bg-blue-500 rounded text-white w-64 drop-shadow-sm"
           href="/join"
         >
           Find Game
         </Link>
         <Link
-          className="p-6 bg-red-600 hover:bg-red-700 rounded text-white w-64 drop-shadow-sm"
+          className="p-6 bg-green-400 hover:bg-green-500 rounded text-white w-64 drop-shadow-sm"
           href="/host"
         >
           Host Game

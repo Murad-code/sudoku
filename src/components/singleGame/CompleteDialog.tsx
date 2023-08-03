@@ -64,7 +64,7 @@ const CompleteDialog = () => {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 duration-300"
+                      className="inline-flex justify-center px-4 py-2 text-sm text-green-700 bg-green-200 border border-transparent rounded-md hover:bg-green-300 duration-300"
                       onClick={handleRestart}
                     >
                       Play Again
@@ -73,7 +73,7 @@ const CompleteDialog = () => {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300"
+                      className="inline-flex justify-center px-4 py-2 text-sm text-red-700 bg-red-200 border border-transparent rounded-md hover:bg-red-300 duration-300"
                       onClick={() => setShow(false)}
                     >
                       Close

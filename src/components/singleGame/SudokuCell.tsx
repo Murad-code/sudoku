@@ -44,7 +44,7 @@ function SudokuCell({ value, rowIndex, columnIndex }: SudokuCellProps) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="absolute inset-0 flex items-center justify-center border-4 border-red-500 pointer-events-none"></div>
+            <div className="absolute inset-0 flex items-center justify-center border-4 border-red-400 pointer-events-none"></div>
           </Transition>
         </button>
       </div>

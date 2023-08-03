@@ -10,10 +10,14 @@ export const emitStartGame = (socket: Socket, roomId: string) => {
 export const listenGameStarted = (
   socket: Socket,
   setGrid: (board: number[][]) => void,
+  setIsComplete: (isComplete: boolean) => void,
+  setElapsedTimeToZero: () => void,
   callback: () => void
 ) => {
   socket.on("gameStarted", (board) => {
     setGrid(board);
+    setIsComplete(false);
+    setElapsedTimeToZero();
     callback();
   });
 };
@@ -74,4 +78,8 @@ export const listenIfPlayerDataUpdated = (
 
 export const emitDevCompleteBoard = (socket: Socket, playerId: string) => {
   socket.emit("devCompleteBoard", playerId);
+};
+
+export const emitRestartGame = (socket: Socket, roomId: string) => {
+  socket.emit("startGame", roomId);
 };

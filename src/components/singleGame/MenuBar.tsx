@@ -13,7 +13,6 @@ const MenuBar = () => {
     handleRestart,
     testCompleteGrid,
     setElapsedTimeToZero,
-    setFinalTime,
   } = useSudokuGridStore();
 
   useEffect(() => {
@@ -33,20 +32,20 @@ const MenuBar = () => {
 
   const formattedTime = moment
     .utc(elapsedTime.asMilliseconds())
-    .format("mm ss");
+    .format("mm: ss");
 
   return (
     <>
       <nav className="flex space-x-8 mt-4 justify-between text-center items-center">
         <Link
           href="/"
-          className="bg-[#f5f5f5] px-4 py-2 w-20 rounded shadow-sm"
+          className="bg-[#f5f5f5] hover:bg-[#e0e0e0] px-4 py-2 w-20 rounded shadow-sm"
         >
           Menu
         </Link>
         <button
           onClick={handleRestart}
-          className="bg-[#f5f5f5] px-4 py-2 rounded w-20 shadow-sm"
+          className="bg-[#f5f5f5] hover:bg-[#e0e0e0] px-4 py-2 rounded w-20 shadow-sm"
         >
           Restart
         </button>
@@ -58,7 +57,7 @@ const MenuBar = () => {
       <div>
         <button
           onClick={testCompleteGrid}
-          className="bg-[#f5f5f5] px-4 py-2 rounded shadow-sm mt-8"
+          className="bg-[#f5f5f5] hover:bg-[#e0e0e0] px-4 py-2 rounded shadow-sm mt-8"
         >
           Complete
         </button>

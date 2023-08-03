@@ -18,7 +18,7 @@ function InputButtons() {
       {numbers.map((number) => (
         <button
           key={number}
-          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-10 rounded"
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-10 rounded"
           onClick={() => handleClick(number)}
         >
           {number}

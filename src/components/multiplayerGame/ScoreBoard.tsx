@@ -18,7 +18,7 @@ function ScoreBoard() {
 
         {/* Table Rows */}
         {playersArray.map(({ id, player }: PlayerData) => (
-          <div key={player.id} className="flex border-t text-center">
+          <div key={id} className="flex border-t text-center">
             <div className="w-6/12 px-4 py-2 flex-none text-left truncate">
               {player.name}
             </div>

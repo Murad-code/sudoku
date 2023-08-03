@@ -38,7 +38,6 @@ export const setupGameEvents = (
       }
     }
   );
-  socket.on("handleRestart", () => {});
 
   socket.on("devCompleteBoard", (playerId: string) => {
     const player = game.getPlayerData(playerId);
