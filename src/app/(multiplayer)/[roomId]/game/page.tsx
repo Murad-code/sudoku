@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { Player } from "@/types/socketio";
 import { toast } from "react-toastify";
 import ConfettiAnimation from "@/components/ConfettiAnimation";
+import { CellIndex } from "@/types/types";
 
 interface MultiplayerPuzzleProps {
   params: {
@@ -30,6 +31,7 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
     isComplete,
     finalTime,
     setErrorCellIndex,
+    errorMessage,
     setGrid,
     setIsComplete,
     setFinalTime,
@@ -37,12 +39,17 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
 
   useEffect(() => {
     if (socket) {
-      listenIncorrectValue(socket, setErrorCellIndex);
+      listenIncorrectValue(socket, handleIncorrectValue);
       listenIfPlayerDataUpdated(socket, handlePlayerDataUpdate);
       listenIfComplete(socket, handleComplete);
       listenIfOthersCompleted(socket, handleOthersCompleted);
     }
   }, [socket]);
+
+  const handleIncorrectValue = (errorCellIndex: CellIndex) => {
+    setErrorCellIndex(errorCellIndex);
+    errorMessage();
+  };
 
   const handleComplete = (isComplete: boolean) => {
     setIsComplete(isComplete);

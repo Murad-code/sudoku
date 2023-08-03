@@ -41,10 +41,10 @@ export const emitFinalTime = (socket: Socket, finalTime: string) => {
 
 export const listenIncorrectValue = (
   socket: Socket,
-  setErrorCellIndex: (cellIndex: CellIndex) => void
+  handleIncorrectValue: (cellIndex: CellIndex) => void
 ) => {
   socket.on("incorrectValue", (cellIndex) => {
-    setErrorCellIndex(cellIndex);
+    handleIncorrectValue(cellIndex);
   });
 };
 

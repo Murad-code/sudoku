@@ -29,15 +29,9 @@ module.exports = {
         },
         red: {
           400: "#ff6d6d",
-          500: "#b23939",
+          500: "#d7494e",
         },
       },
-      // colors: {
-      //   yellow: "fff59a",
-      //   blue: "2dc7ff",
-      //   red: "ff6d6d",
-      //   green: "88dfab",
-      // },
     },
   },
   plugins: [],

@@ -40,7 +40,7 @@ const HostPage = () => {
       </h1>
       <div className="flex min-h-screen flex-col items-center p-6">
         <form
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-10"
+          className="bg-[#fafafa] shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 mt-10"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="mb-4">
