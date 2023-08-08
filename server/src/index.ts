@@ -5,7 +5,7 @@ import { instrument } from "@socket.io/admin-ui";
 import { setupSocketEvents } from "./controllers/socketEvents.js";
 
 const app = express();
-const port = 8080;
+const port = 443;
 
 const server = createServer(app);
 const io = new SocketIOServer(server, {
