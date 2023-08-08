@@ -10,7 +10,11 @@ const port = 8080;
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: ["http://localhost:3000", "https://admin.socket.io"],
+    origin: [
+      "http://localhost:3000",
+      "https://admin.socket.io",
+      "https://multidoku.vercel.app",
+    ],
     credentials: true,
   },
 });
