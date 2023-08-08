@@ -8,9 +8,10 @@ import { useSudokuGridStore } from "@/hooks/useSudokuStore";
 import ConfettiAnimation from "@/components/ConfettiAnimation";
 
 const Puzzle = () => {
-  const { generateNewSudoku } = useSudokuGridStore();
+  const { generateNewSudoku, setIsComplete } = useSudokuGridStore();
 
   useEffect(() => {
+    setIsComplete(false);
     generateNewSudoku();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
