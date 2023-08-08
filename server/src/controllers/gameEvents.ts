@@ -6,11 +6,13 @@ import { Player } from "../models/Player.js";
 export const setupGameEvents = (
   io: Server,
   socket: Socket,
-  game: SudokuGame
+  game: SudokuGame,
+  updateLastActiveTime: (id: string) => void
 ) => {
   socket.on(
     "checkAgainstSolution",
     (playerId: string, selectedNumber: number, focusedCellIndex: CellIndex) => {
+      updateLastActiveTime(socket.id)
       const player = game.getPlayerData(playerId);
       const board = player?.getBoard();
       const solution = game.getSolutionBoard();
@@ -40,6 +42,7 @@ export const setupGameEvents = (
   );
 
   socket.on("devCompleteBoard", (playerId: string) => {
+    updateLastActiveTime(socket.id)
     const player = game.getPlayerData(playerId);
     const solution = game.getSolutionBoard();
     player?.setBoard(solution);

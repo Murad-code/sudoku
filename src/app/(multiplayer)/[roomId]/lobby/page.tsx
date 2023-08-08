@@ -1,6 +1,7 @@
 "use client";
 import {
   emitGetLobbyPlayers,
+  listenIfTimeout,
   listenLobbyUpdated,
 } from "@/services/socketService";
 import { useEffect } from "react";
@@ -8,6 +9,7 @@ import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 import { useRouter } from "next/navigation";
 import { listenGameStarted, emitStartGame } from "@/services/gameService";
 import { useSudokuGridStore } from "@/hooks/useSudokuStore";
+import { handleTimeout } from "@/utils/handleTimeout";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 
@@ -37,6 +39,7 @@ export default function Lobby({ params }: MultiplayerPuzzleProps) {
         setElapsedTimeToZero,
         handleReroute
       );
+      listenIfTimeout(socket, handleTimeout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);

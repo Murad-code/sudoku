@@ -65,3 +65,9 @@ export const listenLobbyUpdated = (
     setPlayers(map);
   });
 };
+
+export const listenIfTimeout = (socket: Socket, handleTimeout: () => void) => {
+  socket.on("timeout", () => {
+    handleTimeout();
+  });
+};

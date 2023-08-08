@@ -12,11 +12,13 @@ import {
   listenIfOthersCompleted,
   emitFinalTime,
 } from "@/services/gameService";
+import { listenIfTimeout } from "@/services/socketService";
 import { useEffect } from "react";
 import { Player } from "@/types/socketio";
 import { toast } from "react-toastify";
 import ConfettiAnimation from "@/components/ConfettiAnimation";
 import { CellIndex } from "@/types/types";
+import { handleTimeout } from "@/utils/handleTimeout";
 
 interface MultiplayerPuzzleProps {
   params: {
@@ -43,6 +45,7 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
       listenIfPlayerDataUpdated(socket, handlePlayerDataUpdate);
       listenIfComplete(socket, handleComplete);
       listenIfOthersCompleted(socket, handleOthersCompleted);
+      listenIfTimeout(socket, handleTimeout);
     }
   }, [socket]);
 
@@ -56,8 +59,7 @@ export default function MultiplayerPuzzle({ params }: MultiplayerPuzzleProps) {
   };
 
   const handleOthersCompleted = (player: Player) => {
-    toast(`${player.name} has finished!`);
-    console.log("Someone's already done!: ", player);
+    toast(`${player.name} has finished! 🎉`);
   };
 
   const handlePlayerDataUpdate = (players: Map<string, Player>) => {
