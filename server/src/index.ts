@@ -5,7 +5,14 @@ import { instrument } from "@socket.io/admin-ui";
 import { setupSocketEvents } from "./controllers/socketEvents.js";
 
 const app = express();
+const testApp = express();
 const port = 8080;
+
+testApp.listen(8081, () => {
+  console.log("API running on 8081");
+});
+
+testApp.get("/", (req, res) => res.json("Connected to server"));
 
 const server = createServer(app);
 const io = new SocketIOServer(server, {
