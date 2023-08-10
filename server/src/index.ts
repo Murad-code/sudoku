@@ -9,13 +9,19 @@ const app = express();
 const testApp = express();
 const port = 8080;
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://admin.socket.io",
+  "https://multidoku.vercel.app", // don't really need this nginx will reverse proxy to socketio server
+];
+
+if (process.env.SERVER_ADDRESS) {
+  allowedOrigins.push(process.env.SERVER_ADDRESS);
+}
+
 testApp.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://admin.socket.io",
-      "https://multidoku.vercel.app",
-    ],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -29,11 +35,7 @@ testApp.get("/", (req, res) => res.json("Connected to server"));
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://admin.socket.io",
-      "https://multidoku.vercel.app",
-    ],
+    origin: allowedOrigins,
     credentials: true,
   },
 });
