@@ -48,7 +48,7 @@ const MenuBar = () => {
 
   return (
     <>
-      <nav className="flex space-x-8 mt-10 justify-between text-center items-center">
+      <nav className="flex space-x-8 mt-4 justify-between text-center items-center">
         <Link
           href="/"
           className="bg-[#f5f5f5] hover:bg-[#e0e0e0] px-4 py-2 w-20 rounded shadow-sm"
@@ -59,14 +59,14 @@ const MenuBar = () => {
           {formattedTime}
         </div>
       </nav>
-      <div>
+      {/* <div>
         <button
           onClick={handleComplete}
           className="bg-[#f5f5f5] hover:bg-[#e0e0e0] px-4 py-2 rounded shadow-sm mt-8"
         >
           Complete
         </button>
-      </div>
+      </div> */}
       <ScoreBoard />
     </>
   );

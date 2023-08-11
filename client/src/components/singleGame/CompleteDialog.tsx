@@ -50,17 +50,17 @@ const CompleteDialog = () => {
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-2xl font-medium leading-6 text-gray-900"
                 >
                   Puzzle Completed! 🎉
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500 border-t pt-2">
+                  <p className="text-md text-gray-500 border-t pt-2">
                     Well done, you finished in {finalTime}
                   </p>
                 </div>
 
-                <div className="flex space-x-4 mt-10">
+                <div className="flex space-x-4 mt-4">
                   <div className="mt-4">
                     <button
                       type="button"

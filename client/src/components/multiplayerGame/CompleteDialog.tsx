@@ -6,7 +6,7 @@ import { useMultiplayerStore } from "@/hooks/useMultiplayerStore";
 
 const CompleteDialog = () => {
   const { finalTime, isComplete } = useSudokuGridStore();
-  const { socket, roomId } = useMultiplayerStore();
+  const { socket, roomId, isHost } = useMultiplayerStore();
   const [show, setShow] = useState(isComplete);
 
   useEffect(() => {
@@ -57,26 +57,28 @@ const CompleteDialog = () => {
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-2xl font-medium leading-6 text-gray-900"
                 >
                   Puzzle Completed! 🎉
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500 border-t pt-2">
+                  <p className="text-md text-gray-500 border-t pt-2">
                     Well done, you finished in {finalTime}
                   </p>
                 </div>
 
                 <div className="flex space-x-4 mt-10">
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm text-green-700 bg-green-200 border border-transparent rounded-md hover:bg-green-300 duration-300"
-                      onClick={handleRestart}
-                    >
-                      Play Again
-                    </button>
-                  </div>
+                  {isHost && (
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        className="inline-flex justify-center px-4 py-2 text-sm text-green-700 bg-green-200 border border-transparent rounded-md hover:bg-green-300 duration-300"
+                        onClick={handleRestart}
+                      >
+                        Play Again
+                      </button>
+                    </div>
+                  )}
                   <div className="mt-4">
                     <button
                       type="button"
